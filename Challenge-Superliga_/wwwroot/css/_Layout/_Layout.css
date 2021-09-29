@@ -1,0 +1,75 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Karla:wght@300&display=swap');
+
+* {
+    font-family: 'Karla', sans-serif;
+}
+
+/*NAV MENU*/
+.typing {
+    background: linear-gradient(98deg, #14279B 44%, #5C7AEA 87%, #E6E6E6 100%);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-size: 2.3em;
+}
+
+
+.nav-item {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-item ul li {
+    padding-right: 2em;
+}
+
+#nav-itemh a, #nav-items a {
+    background: linear-gradient(to right, #fff,#0181B5,#fff);
+    text-decoration: none !important;
+    background-size: 200% 200%;
+    animation: rainbow 2s ease-in-out infinite;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: rgba(0,0,0,1) ;
+    font-size: 2.3rem !important;
+    transition: color .2s ease-in-out;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #fff;
+    padding-left:2em;
+}
+#nav-itemh a:hover, #nav-items a:hover {
+    color: transparent !important;
+    text-decoration: none !important;
+
+}
+@keyframes rainbow { 
+  0%{background-position:left}
+  50%{background-position:right}
+  100%{background-position:left}
+}
+
+/*BODY*/
+body {
+    height: 100vh;
+    background: linear-gradient(180deg, rgba(122,183,250,1) 0%, rgba(0,163,217,1) 35%, rgba(0,20,139,1) 100%);
+    background-attachment: fixed;
+}
+.paginate_button{
+    color: #000 !important;
+}
+/*FOOTER*/
+#footer {
+    color: #fff !important;
+    margin: 1em;
+    border-top: none !important;
+    position: absolute;
+    bottom: 0;
+}
+
+@media only screen and (max-width:920px) {
+    .form {
+        left: 2em !important;
+    }
+}

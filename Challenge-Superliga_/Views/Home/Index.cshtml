@@ -1,0 +1,130 @@
+﻿@model IEnumerable<Challenge_Superliga_.Models.Socio>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<link href="~/css/Home/Index.css" rel="stylesheet" />
+<div class="form">
+
+    <button type="button" id="btnAbrirModal" class="btn btn-outline-primary btn-lg">Enviar</button>
+</div>
+@if (Model != null)
+{
+    <div class="modal fade" id="socioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="min-width: 98%">
+            <div class="modal-content" style="width: 100%">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table" width="100%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Nombre)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Edad)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Equipo)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Nombre)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Edad)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Equipo)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div id="form_Modal">
+                        <label>Personas Totales: </label>
+                        <label> @ViewBag.TotalSocios</label>
+                        <label>Nombres Mas Repetido hinchas de River: </label>
+                        @foreach (var item in @ViewBag.NombreComunRiver)
+                        {
+                            <label>@item</label>
+                        }
+                    </div>
+                    <br />
+                    <br />
+                    <table class="table" width="100%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Cantidad                                    
+                                </th>
+                                <th>
+                                    Equipo
+                                </th>
+                                <th>
+                                    PromEdad
+                                </th>
+                                <th>
+                                    MaxEdad
+                                </th>
+                                <th>
+                                    MinEdad
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.DatosEquipo)
+                            {
+                            <tr>
+                                <td>
+                                    @item.Cantidad
+                                </td>
+                                <td>
+                                    @item.Equipo
+                                </td>
+                                <td>
+                                    @item.PromEdad
+                                </td>
+                                <td>
+                                    @item.MaxEdad
+                                </td>
+                                <td>
+                                    @item.MinEdad
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <br />
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+    $(document).ready(function () {
+        $('.table').DataTable();
+    });
+    $("#btnAbrirModal").on("click", () => {
+        $("#socioModal").modal('show');
+    })
+</script>
+
