@@ -8,7 +8,6 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
 using Challenge_Superliga_.Models;
-using CsvHelper;
 using System.Globalization;
 
 namespace Challenge_Superliga_.Controllers
@@ -17,15 +16,13 @@ namespace Challenge_Superliga_.Controllers
     {
         public ActionResult Index()
         {
-            var lstSocios = ServicioSocios.FiltrarSocio();
-            ViewBag.TotalSocios = ServicioSocios.ObtenerSocios().Count();
-            ViewBag.PromedioEdadRacing = ServicioSocios.ObtenerPromedioEdadRacing();
-            ViewBag.NombreComunRiver = ServicioSocios.ObtenerNombreMasComunRiver();
-            ViewBag.DatosEquipo = ServicioSocios.ObtenerDatosSociosAgrupados();
-            return View(lstSocios);
+            ResultadoSocio oResultadoSocio = new ResultadoSocio();
+            oResultadoSocio.lstSocios = ServicioSocios.FiltrarSocio();
+            oResultadoSocio.CantidadSocios = ServicioSocios.ObtenerSocios().Count();
+            oResultadoSocio.PromedioEdadRacing = ServicioSocios.ObtenerPromedioEdadRacing();
+            oResultadoSocio.lstNombreComunRiver = ServicioSocios.ObtenerNombreMasComunRiver();
+            oResultadoSocio.lstDatoEquipo = ServicioSocios.ObtenerDatosSociosAgrupados();
+            return View(oResultadoSocio);
         }
-
-       
-
     }
 }

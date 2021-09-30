@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Challenge_Superliga_.Models.Socio>
+﻿@model Challenge_Superliga_.Models.ResultadoSocio
 
 @{
     ViewData["Title"] = "Index";
@@ -26,18 +26,18 @@
                         <thead>
                             <tr>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Nombre)
+                                    Nombre
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Edad)
+                                    Edad
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Equipo)
+                                    Equipo
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.lstSocios)
                             {
                                 <tr>
                                     <td>
@@ -53,22 +53,49 @@
                             }
                         </tbody>
                     </table>
+                    <br />
                     <div id="form_Modal">
                         <label>Personas Totales: </label>
-                        <label> @ViewBag.TotalSocios</label>
-                        <label>Nombres Mas Repetido hinchas de River: </label>
-                        @foreach (var item in @ViewBag.NombreComunRiver)
-                        {
-                            <label>@item</label>
-                        }
+                        <label> @Model.CantidadSocios</label>
+                        <label>Promedio Edad Hinchas de racing: </label>
+                        <label> @Model.PromedioEdadRacing</label>
                     </div>
+                    <br />
+                    <br />
+                    <label>Nombres Mas Repetido hinchas de River: </label>
+                    <table class="table" width="100%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Nombre
+                                </th>
+                                <th>
+                                    Cantidad
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.lstNombreComunRiver)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Cantidad
+                                    </td>
+                                    <td>
+                                        @item.Nombre
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                     <br />
                     <br />
                     <table class="table" width="100%">
                         <thead>
                             <tr>
                                 <th>
-                                    Cantidad                                    
+                                    Cantidad
                                 </th>
                                 <th>
                                     Equipo
@@ -85,25 +112,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in ViewBag.DatosEquipo)
+                            @foreach (var item in Model.lstDatoEquipo)
                             {
-                            <tr>
-                                <td>
-                                    @item.Cantidad
-                                </td>
-                                <td>
-                                    @item.Equipo
-                                </td>
-                                <td>
-                                    @item.PromEdad
-                                </td>
-                                <td>
-                                    @item.MaxEdad
-                                </td>
-                                <td>
-                                    @item.MinEdad
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>
+                                        @item.Cantidad
+                                    </td>
+                                    <td>
+                                        @item.Equipo
+                                    </td>
+                                    <td>
+                                        @item.PromEdad
+                                    </td>
+                                    <td>
+                                        @item.MaxEdad
+                                    </td>
+                                    <td>
+                                        @item.MinEdad
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>

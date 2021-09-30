@@ -2,17 +2,17 @@
 
 namespace Challenge_Superliga_.Models
 {
-    public class Socio
+    public class Socio : Persona
     {
-        [Required]
-        public string Nombre { get; set; }
-        [Required]
-        public int Edad { get; set; }
-        [Required]
-        public string Equipo { get; set; }
-        [Required]
-        public string Estado_Civil { get; set; }
-        [Required]
-        public string Nivel_Estudio { get; set; }
+        public float PromEdad { get; set; }
+
+        public Socio(string Nombre,int Edad,string Equipo, string Estado_Civil, string Nivel_Estudio)
+        {
+            this.Nombre = Nombre;
+            this.Edad = Edad;
+            this.Equipo = Equipo;
+            this.Estado_Civil = Estado_Civil;
+            this.Nivel_Estudio = Nivel_Estudio;
+        }
     }
 }

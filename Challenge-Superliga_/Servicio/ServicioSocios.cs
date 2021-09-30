@@ -8,20 +8,19 @@ using System.Collections;
 
 namespace Challenge_Superliga_.Servicio
 {
-    public class ServicioSocios
+    public  class ServicioSocios
     {
         public static List<Socio> ObtenerSocios()
         {
             try
             {
-                var sLineas = File.ReadLines("C:/Users/HOME/Desktop/socios.csv").ToList();
-                var lstSocios = new List<Socio>();
+                List<string> sLineas = File.ReadLines("C:/Users/HOME/Desktop/socios.csv").ToList();
+                List<Socio> lstSocios = new List<Socio>();
+               
                 foreach (var slinea in sLineas)
                 {
-                    var sDato = slinea.Split(';');
-                    var oSocio = new Socio();
-                    oSocio = LlenarListaSocio(sDato);
-                    lstSocios.Add(oSocio);                    
+                    string[] sDato = slinea.Split(';');                    
+                    lstSocios.Add(LlenarListaSocio(sDato));                    
                 }
                 return lstSocios;
             }
@@ -35,30 +34,33 @@ namespace Challenge_Superliga_.Servicio
 
         public static float ObtenerPromedioEdadRacing()
         {
-            var fPromedioEdadRacing = ObtenerSocios().Where(x => x.Equipo == "Racing").Average(r => r.Edad);
+            double fPromedioEdadRacing = ObtenerSocios().Where(x => x.Equipo == "Racing").Average(r => r.Edad);
             return float.Parse(fPromedioEdadRacing.ToString());
         }
 
-        public static List<string> ObtenerNombreMasComunRiver()
+         public static List<NombreComunRiver> ObtenerNombreMasComunRiver()
         {
-            var lstSocios = ObtenerSocios();
-            var iNombre = from socio in lstSocios
-                          where socio.Equipo == "River"
-                          group socio by socio.Nombre into g                          
-                         orderby g.Count() descending
-                         select new
-                         {
-                             nombre = g.Key,
-                             cantidad = g.Count()
-                         };
-            var lstNombre = iNombre.ToList();
-            var lstPersonasRepetidasRiver = new List<string>();
-            var lstPersonas = iNombre.OrderByDescending(x => x.cantidad).Take(5).ToList();
-            foreach(var per in lstPersonas)
+            ResultadoSocio oResultadoSocio = new ResultadoSocio();
+            var lstSocios = ObtenerSocios().Where(x => x.Equipo == "River").GroupBy(y => y.Nombre).OrderByDescending(t => t.Count()).Select(q => new
             {
-                lstPersonasRepetidasRiver.Add(per.nombre);
+                Nombre = q.Select(r => r.Nombre),
+                Cantidad = q.Count()
+            }).Take(5).ToList();
+
+            oResultadoSocio.lstNombreComunRiver = new List<NombreComunRiver>();
+            foreach (var per in lstSocios)
+            {
+                NombreComunRiver oNombreComunRiver = new NombreComunRiver();
+                foreach (var item in per.Nombre)
+                {
+                    oNombreComunRiver.Nombre = item;
+                    break;
+                }
+                oNombreComunRiver.Cantidad = per.Cantidad;
+                oResultadoSocio.lstNombreComunRiver.Add(oNombreComunRiver);
             }
-            return lstPersonasRepetidasRiver;
+
+            return oResultadoSocio.lstNombreComunRiver;
         }
 
         public static List<DatoEquipo> ObtenerDatosSociosAgrupados()
@@ -71,12 +73,11 @@ namespace Challenge_Superliga_.Servicio
                                  minEdad = x.Select(w => w.Edad).Min(),
                                  maxEdad = x.Select(w => w.Edad).Max()
                              });
-
             var lstEquipos = cantEquipo.ToList();
-            var lstDtosEquipos = new List<DatoEquipo>();
+            List<DatoEquipo> lstDtosEquipos = new List<DatoEquipo>();
             foreach (var eq in lstEquipos)
             {
-                var oDatoEquipo = new DatoEquipo();
+                DatoEquipo oDatoEquipo = new DatoEquipo();
                 oDatoEquipo.Equipo = eq.equipo;
                 oDatoEquipo.Cantidad = eq.cantidad;
                 oDatoEquipo.PromEdad = eq.promEdad;
@@ -91,20 +92,17 @@ namespace Challenge_Superliga_.Servicio
 
         public static List<Socio> FiltrarSocio()
         {
-            var lstSocios = new List<Socio>();
+            List<Socio> lstSocios = new List<Socio>();
             lstSocios = ObtenerSocios().Where(x => x.Estado_Civil == "Casado" && x.Nivel_Estudio == "Universitario").OrderBy(x => x.Edad).Take(100).ToList();
 
             return lstSocios;
         }
 
+
         private static Socio LlenarListaSocio(string[] Dato)
         {
-            var oSocio = new Socio();
-            oSocio.Nombre = Dato[0];
-            oSocio.Edad = int.Parse(Dato[1]);
-            oSocio.Equipo = Dato[2];
-            oSocio.Estado_Civil = Dato[3];
-            oSocio.Nivel_Estudio = Dato[4];
+            Socio oSocio = new Socio(Dato[0], int.Parse(Dato[1]), Dato[2], Dato[3], Dato[4]);
+
             return oSocio;
         }
     }
